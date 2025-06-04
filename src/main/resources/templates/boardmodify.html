@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>게시물 작성폼</title>
+  <title>게시물 수정</title>
 </head>
 
 <style>
@@ -12,22 +12,45 @@
       margin-top : 40px;
   }
 
-  .layout input {
+  .layout input[type="text"],
+  .layout textarea,
+  .layout input[type="file"] { /* 파일 input도 스타일 적용 */
       width : 100%;
       box-sizing : border-box;
+      margin-bottom: 10px;
   }
 
   .layout textarea {
-      width : 100%;
-      margin-top: 10px;
       min-height : 300px;
+  }
+
+  .layout button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
   }
 </style>
 <body>
 <div class="layout">
-  <form th:action="@{/board/update/{id}(id = ${board.id})}" method="post">
-    <input name="title" type="text" th:value="${board.title}">
-    <textarea name="content" th:text="${board.content}"></textarea>
+  <form th:action="@{/board/update/{id}(id = ${board.id})}" method="post" enctype="multipart/form-data">
+    <div>
+      <label for="title-input">제목:</label>
+      <input name="title" type="text" id="title-input" th:value="${board.title}">
+    </div>
+    <div>
+      <label for="content-textarea">내용:</label>
+      <textarea name="content" id="content-textarea" th:text="${board.content}"></textarea>
+    </div>
+    <div>
+      <label for="file-input">파일 첨부 (선택):</label>
+      <input name="file" type="file" id="file-input">
+      <span th:if="${board.filename}">
+            현재 파일: <a th:href="${board.filepath}" th:text="${board.filename}"></a>
+            </span>
+      <span th:unless="${board.filename}">
+            현재 첨부된 파일 없음
+        </span>
+    </div>
     <button type="submit">수정</button>
   </form>
 </div>
