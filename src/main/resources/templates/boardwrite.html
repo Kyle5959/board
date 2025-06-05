@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시물 작성폼</title>
@@ -24,6 +24,10 @@
     }
 </style>
 <body>
+
+<a th:href="@{/board/list}" style="display: inline-block; margin-top : 20px; padding : 10px 15px;
+            background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">게시글 목록으로</a>
+
     <div class="layout">
         <form action="/board/writepro" method="post" enctype="multipart/form-data">
             <input name="title" type="text">
@@ -32,5 +36,6 @@
             <button type="submit">작성</button>
         </form>
     </div>
+
 </body>
 </html>

@@ -122,7 +122,7 @@ public class BoardController {
         // (예: BoardService.updateBoard(Board board, MultipartFile file, boolean isNewFileIncluded))
 
         model.addAttribute("message", "수정이 완료되었습니다.");
-        model.addAttribute("searchUrl", "/board/list");
+        model.addAttribute("searchUrl", "/board/view?id=" + boardTemp.getId());
 
         return "message";
 

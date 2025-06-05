@@ -19,14 +19,14 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     //글 작성
-    public void write(Board board, MultipartFile file) throws Exception{
+    public void write(Board board, MultipartFile file) throws Exception {
 
         String projectPath = System.getProperty("user.dir") +
                 File.separator + "src" +
                 File.separator + "main" +
                 File.separator + "resources" +
                 File.separator + "static" +
-                File.separator + "files" ;
+                File.separator + "files";
 
         File directory = new File(projectPath);
         if (!directory.exists()) {
@@ -51,6 +51,7 @@ public class BoardService {
         }
 
         boardRepository.save(board);
+
     }
 
     // 게시글 리스트 처리
