@@ -2,29 +2,132 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 상세 페이지</title>
+    <title th:text="${board.title}"></title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        h1 {
+            color: #343a40;
+            margin: 0;
+            font-size: 2.2em;
+        }
+        .content-section {
+            margin-top: 20px;
+            line-height: 1.6;
+            color: #495057;
+            font-size: 1.1em;
+            word-wrap: break-word; /* 긴 단어 줄바꿈 */
+        }
+        .file-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #eee;
+            text-align: center;
+        }
+        .file-section p {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .file-section img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 5px;
+            display: block; /* 중앙 정렬을 위해 */
+            margin: 0 auto 15px auto; /* 이미지 아래 여백 */
+        }
+        .file-section a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .file-section a:hover {
+            text-decoration: underline;
+        }
+        .button-group {
+            text-align: right; /* 버튼들을 오른쪽으로 정렬 */
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .button-group a {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .button-group a.delete-btn {
+            background-color: #dc3545; /* 빨간색 */
+            color: white;
+        }
+        .button-group a.modify-btn {
+            background-color: #ffc107; /* 주황색 */
+            color: #343a40;
+        }
+        .button-group a.list-btn {
+            background-color: #007bff; /* 파란색 */
+            color: white;
+            float: left; /* 목록 버튼을 좌측 상단으로 */
+            margin-left: 0;
+        }
+    </style>
 </head>
 <body>
 
-<a th:href="@{/board/list}" style="display: inline-block; margin-top : 20px; padding : 10px 15px;
-            background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">게시글 목록으로</a>
+<div class="container">
+    <div class="header-section">
+        <a th:href="@{/board/list}" class="list-btn">게시글 목록으로</a>
+        <h1 th:text="${board.title}">게시글 제목</h1>
+    </div>
 
-<h1 th:text="${board.title}"></h1>
-<p th:text="${board.content}"></p>
+    <div class="content-section">
+        <p th:text="${board.content}">게시글 내용</p>
+    </div>
 
-<div th:if="${board.filepath}"><p>첨부 파일:</p>
-    <img th:src="${board.filepath}" alt="첨부 이미지" style="max-width: 100%; height:auto;">
-    <br>
-    <a th:href="@{${board.filepath}}" th:text="${board.filename}" target="_blank"></a>
+    <div class="file-section" th:if="${board.filepath}">
+        <p>첨부 파일:</p>
+        <img th:src="${board.filepath}" alt="첨부 이미지">
+        <a th:href="@{${board.filepath}}" th:text="${board.filename}" target="_blank"></a>
+    </div>
+    <div class="file-section" th:unless="${board.filepath}">
+        <p>첨부된 파일 없음</p>
+    </div>
+
+    <div class="button-group">
+        <a th:href="@{/board/delete(id=${board.id})}" class="delete-btn">글삭제</a>
+        <a th:href="@{/board/modify/{id}(id = ${board.id})}" class="modify-btn">수정</a>
+    </div>
 </div>
-<div th:unless="${board.filepath}">
-    <p>첨부된 파일 없음</p>
-</div>
-<br>
-<br>
-<a th:href="@{/board/delete(id=${board.id})}">글삭제</a>
-<a th:href="@{/board/modify/{id}(id = ${board.id})}">수정</a>
-<a th:href="@{${board.filepath}}">다운받기</a>
+
 </body>
-
 </html>
